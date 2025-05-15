@@ -18,6 +18,8 @@ class PostController extends Controller
     {
         //$posts = Post::get();
 
+
+        session(['key' => 'value']);
         $posts = Post::paginate(2);
 
         // $post->delete();
@@ -43,7 +45,8 @@ class PostController extends Controller
      */
     public function create()
     {
-
+        //session()->flush();
+        session()->forget('key');
         $categories = Category::pluck('id', 'title');
         $post = new Post();
 
@@ -60,7 +63,7 @@ class PostController extends Controller
         //Post::create($request->all());
 
         Post::create( $request->validated());
-        return to_route('post.index');
+        return to_route('post.index')->with('success', 'Post created successfully');
 
     }
 
@@ -97,7 +100,7 @@ class PostController extends Controller
 
 
         $post->update($data);
-        return to_route('post.index');
+        return to_route('post.index')->with('success', 'Post updated successfully');
     }
 
     /**
@@ -106,7 +109,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return to_route('post.index');
+        return to_route('post.index')->with('success', 'Post deleted successfully');
 
     }
 }

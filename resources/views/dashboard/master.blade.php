@@ -7,6 +7,17 @@
     <title>Dashboard</title>
 </head>
 <body>
+    @session('key')
+        <div>
+            <h2>{{ $value }}</h2>
+        </div>
+    @endsession
+
+    @if(session('success'))
+        <div>
+            {{ session('success') }}
+        </div>
+    @endif
 
     @yield('content')
 

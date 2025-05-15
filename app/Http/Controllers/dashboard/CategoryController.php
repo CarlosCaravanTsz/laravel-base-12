@@ -63,7 +63,7 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
         $category->update($data);
-        return to_route('category.index');
+        return to_route('category.index')->with('success', 'Category updated successfully');
     }
 
     /**
@@ -72,6 +72,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return to_route('category.index');
+        return to_route('category.index')->with('success', 'Category deleted successfully');
     }
 }
