@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\PutRequest;
+use App\Http\Requests\Category\StoreRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -13,13 +15,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        Category::create([
-           'id' => 1,
-           'title' => 'test category name',
-           'slug' => 'test category slug',
-        ]);
 
-        return 'Success!';
+
+        $categories = Category::paginate(2);
+        return view('dashboard.categories.index', compact('categories'));
     }
 
     /**
@@ -27,15 +26,17 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $category = new Category();
+        return view('dashboard.categories.create', compact('category'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        Category::create($request->validated());
+        return redirect()->route('category.index')->with('success', 'Category created successfully');
     }
 
     /**
@@ -43,7 +44,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+
+        return view('dashboard.categories.show', compact('category'));
     }
 
     /**
@@ -51,15 +53,17 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('dashboard.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(PutRequest $request, Category $category)
     {
-        //
+        $data = $request->validated();
+        $category->update($data);
+        return to_route('category.index');
     }
 
     /**
@@ -67,6 +71,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return to_route('category.index');
     }
 }
