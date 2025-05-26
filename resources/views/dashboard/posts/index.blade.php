@@ -2,16 +2,16 @@
 
 @section('content')
 
-<a href="{{route('post.create')}}" target="blank">Create</a>
+<a class="my-3 btn btn-primary" href="{{route('post.create')}}" target="blank">Create</a>
 
-<table>
+<table class="table">
     <thead>
         <tr>
-            <td>Id</td>
-            <td>Title</td>
-            <td>Posted</td>
-            <td>Category</td>
-            <td>Options</td>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Posted</th>
+            <th>Category</th>
+            <th>Options</th>
         </tr>
     </thead>
     <tbody>
@@ -30,12 +30,12 @@
                 {{ $post->category->title}}
             </td>
             <td>
-                <a href="{{route('post.edit',$post->id)}}">Edit</a>
-                <a href="{{route('post.show',$post->id)}}">Show</a>
+                <a class="mt-2 btn btn-success" href="{{route('post.edit',$post->id)}}">Edit</a>
+                <a class="mt-2 btn btn-success" href="{{route('post.show',$post->id)}}">Show</a>
                 <form action="{{route('post.destroy',$post->id)}}" method="post">
                     @method('delete')
                     @csrf
-                    <button type="submit">Delete</button>
+                    <button class="mt-2 btn btn-danger" type="submit">Delete</button>
                 </form>
 
             </td>
@@ -43,6 +43,7 @@
         @endforeach
     </tbody>
 </table>
-
-{{ $posts->links() }}
+<div class="mt-2">
+    {{ $posts->links() }}
+</div>
 @endsection
